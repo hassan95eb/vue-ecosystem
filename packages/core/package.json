@@ -1,0 +1,66 @@
+{
+  "name": "@vue-ecosystem/core",
+  "version": "0.1.0",
+  "description": "Shared primitives for the Vue ecosystem: base error type, namespaced debug logger, common types.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "matchers.d.ts",
+    "README.md"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./test-setup": {
+      "types": "./dist/test-setup.d.ts",
+      "import": "./dist/test-setup.js",
+      "require": "./dist/test-setup.cjs"
+    },
+    "./matchers": {
+      "types": "./matchers.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run --root ../.. packages/core/tests",
+    "test:coverage": "vitest run --root ../.. --coverage packages/core/tests",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "lint": "eslint src tests"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "vue": "^3.5.17"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "composition-api",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OWNER/vue-ecosystem.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/OWNER/vue-ecosystem/tree/main/packages/core#readme",
+  "bugs": {
+    "url": "https://github.com/OWNER/vue-ecosystem/issues"
+  }
+}

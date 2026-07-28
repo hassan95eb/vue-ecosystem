@@ -1,0 +1,59 @@
+name: Bug report
+description: Something in one of the packages does not behave as documented.
+labels: ['bug', 'needs triage']
+body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: Which package?
+      options:
+        - '@vue-ecosystem/core'
+        - '@vue-ecosystem/persian-tools'
+        - '@vue-ecosystem/realtime'
+        - '@vue-ecosystem/smart-table'
+        - '@vue-ecosystem/state-machine'
+        - '@vue-ecosystem/query-builder'
+        - '@vue-ecosystem/virtual-scroll'
+        - '@vue-ecosystem/form-builder'
+        - '@vue-ecosystem/dashboard-layout'
+        - '@vue-ecosystem/tour'
+        - 'repo tooling / CI'
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: 0.1.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you expected, and what you got instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: A code snippet, or a link to a StackBlitz / repo. The smaller the better.
+      render: ts
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: |
+        Vue: 3.5.x
+        Node: 22.x
+        Bundler: Vite 6 / webpack 5 / …
+        Browser or runtime:
+    validations:
+      required: true

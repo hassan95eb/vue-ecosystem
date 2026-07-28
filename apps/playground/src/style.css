@@ -1,0 +1,81 @@
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, 'Segoe UI', Tahoma, sans-serif;
+  line-height: 1.7;
+}
+
+body {
+  margin: 0;
+  padding: 2rem 1rem;
+  background: #f6f7f9;
+  color: #16181d;
+}
+
+.page {
+  max-width: 46rem;
+  margin: 0 auto;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e3e5ea;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.05rem;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  color: #5b6070;
+  margin-bottom: 0.35rem;
+}
+
+input,
+select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem 0.7rem;
+  font: inherit;
+  border: 1px solid #ccd0d9;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.out {
+  margin: 0.75rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.muted {
+  color: #5b6070;
+  font-size: 0.85rem;
+}
+
+.ok {
+  color: #146c43;
+}
+
+.bad {
+  color: #b02a37;
+}
+
+.todo {
+  opacity: 0.55;
+}
+
+.todo li {
+  font-size: 0.9rem;
+}

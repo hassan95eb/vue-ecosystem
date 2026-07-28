@@ -1,0 +1,80 @@
+{
+  "name": "@vue-ecosystem/persian-tools",
+  "version": "0.1.0",
+  "description": "Jalali dates, Persian number formatting, Iranian validators and an RTL input directive for Vue 3.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./jalali": {
+      "types": "./dist/jalali.d.ts",
+      "import": "./dist/jalali.js",
+      "require": "./dist/jalali.cjs"
+    },
+    "./number": {
+      "types": "./dist/number.d.ts",
+      "import": "./dist/number.js",
+      "require": "./dist/number.cjs"
+    },
+    "./validation": {
+      "types": "./dist/validation.d.ts",
+      "import": "./dist/validation.js",
+      "require": "./dist/validation.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run --root ../.. packages/persian-tools/tests",
+    "test:coverage": "vitest run --root ../.. --coverage packages/persian-tools/tests",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "lint": "eslint src tests"
+  },
+  "dependencies": {
+    "@vue-ecosystem/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "vue": "^3.5.17"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "persian",
+    "farsi",
+    "jalali",
+    "shamsi",
+    "rtl",
+    "iran",
+    "composition-api"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OWNER/vue-ecosystem.git",
+    "directory": "packages/persian-tools"
+  },
+  "homepage": "https://github.com/OWNER/vue-ecosystem/tree/main/packages/persian-tools#readme",
+  "bugs": {
+    "url": "https://github.com/OWNER/vue-ecosystem/issues"
+  }
+}

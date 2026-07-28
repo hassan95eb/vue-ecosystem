@@ -1,0 +1,51 @@
+{
+  "name": "@vue-ecosystem/realtime",
+  "version": "0.1.0",
+  "description": "Composables for realtime data: WebSocket/SSE connection lifecycle, reconnection and optimistic state.",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "echo \"[@vue-ecosystem/realtime] skeleton - nothing to build yet\"",
+    "test": "echo \"[@vue-ecosystem/realtime] skeleton - no tests yet\"",
+    "typecheck": "echo \"[@vue-ecosystem/realtime] skeleton - nothing to type-check yet\"",
+    "lint": "echo \"[@vue-ecosystem/realtime] skeleton - nothing to lint yet\""
+  },
+  "dependencies": {
+    "@vue-ecosystem/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "composition-api",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OWNER/vue-ecosystem.git",
+    "directory": "packages/realtime"
+  }
+}

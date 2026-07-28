@@ -1,0 +1,44 @@
+name: Feature request
+description: Propose a new capability or an API change.
+labels: ['enhancement', 'needs triage']
+body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: Which package?
+      options:
+        - '@vue-ecosystem/core'
+        - '@vue-ecosystem/persian-tools'
+        - '@vue-ecosystem/realtime'
+        - '@vue-ecosystem/smart-table'
+        - '@vue-ecosystem/state-machine'
+        - '@vue-ecosystem/query-builder'
+        - '@vue-ecosystem/virtual-scroll'
+        - '@vue-ecosystem/form-builder'
+        - '@vue-ecosystem/dashboard-layout'
+        - '@vue-ecosystem/tour'
+        - 'new package'
+        - 'repo tooling / CI'
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the situation you are in, not the solution you have in mind.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API
+      description: Rough sketch of how it would be used.
+      render: ts
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+      description: Including "do nothing" and any workaround you are using today.
