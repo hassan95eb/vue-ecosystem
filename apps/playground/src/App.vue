@@ -54,11 +54,13 @@ const mobileState = computed(() =>
 
 <template>
   <main class="page">
-    <h1>vue-ecosystem playground</h1>
-    <p class="muted">
-      Live demo of <code>@vue-ecosystem/persian-tools</code>. The other packages are skeletons —
-      they will appear here as they are built.
-    </p>
+    <header class="ltr" dir="ltr">
+      <h1>vue-ecosystem playground</h1>
+      <p>
+        Live demo of <code>@vue-ecosystem/persian-tools</code>. The other packages are skeletons —
+        they will appear here as they are built.
+      </p>
+    </header>
 
     <section class="card">
       <h2>تاریخ جلالی — <code>useJalali</code></h2>
@@ -89,7 +91,15 @@ const mobileState = computed(() =>
       </div>
 
       <div class="calendar">
-        <span v-for="w in JALALI_WEEKDAY_NAMES" :key="w" class="weekday">{{ w.slice(0, 3) }}</span>
+        <!--
+          Both spellings are rendered and one is hidden by a media query. The full
+          name is used wherever the column is wide enough; below that the fallback is
+          a uniform single letter rather than a mid-word cut like "چها" or "سه‌".
+        -->
+        <span v-for="w in JALALI_WEEKDAY_NAMES" :key="w" class="weekday">
+          <span class="weekday__full">{{ w }}</span>
+          <span class="weekday__short">{{ w[0] }}</span>
+        </span>
         <span v-for="b in leadingBlanks" :key="`b${b}`" />
         <button
           v-for="d in daysInMonth"
@@ -127,14 +137,14 @@ const mobileState = computed(() =>
         {{ nationalIdState ? 'کد ملی معتبر است' : 'کد ملی نامعتبر است' }}
       </p>
 
-      <label for="mobile" style="margin-top: 1rem">شماره موبایل</label>
+      <label for="mobile" class="label--spaced">شماره موبایل</label>
       <input id="mobile" v-model="mobile" v-rtl-input.numeric.english />
       <p v-if="mobileState !== null" class="muted" :class="mobileState ? 'ok' : 'bad'">
         {{ mobileState ? `معتبر — ${normalizeIranianMobile(mobile)}` : 'شماره نامعتبر است' }}
       </p>
     </section>
 
-    <section class="card todo">
+    <section class="card todo ltr" dir="ltr">
       <h2>Coming next</h2>
       <ul>
         <li>realtime — highest product priority</li>
@@ -147,42 +157,100 @@ const mobileState = computed(() =>
 </template>
 
 <style scoped>
+.label--spaced {
+  margin-top: var(--space-5);
+}
+
+/* -------------------------------------------------------------------------
+ * Calendar
+ * ---------------------------------------------------------------------- */
 .calendar {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0.25rem;
-  margin-top: 1rem;
+  /* minmax(0, 1fr) rather than 1fr: without it a grid item refuses to shrink
+     below its content width, which is what pushed the weekday labels out of
+     their columns in the first place. */
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-1);
+  margin-top: var(--space-5);
+  padding: var(--space-3);
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 
 .weekday {
-  text-align: center;
+  padding-bottom: var(--space-2);
   font-size: 0.75rem;
-  color: #5b6070;
-  padding-bottom: 0.25rem;
+  font-weight: 550;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--text-secondary);
+  /* Never truncate mid-word; the short form takes over instead. */
+  white-space: nowrap;
+  overflow: visible;
 }
 
+.weekday__short {
+  display: none;
+}
+
+/* Under ~34rem the widest label ("چهارشنبه") no longer fits its column, so the
+   single-letter form is shown for every day -- uniform, never half a word. */
+@media (max-width: 34rem) {
+  .weekday__full {
+    display: none;
+  }
+
+  .weekday__short {
+    display: inline;
+  }
+}
+
+/* -------------------------------------------------------------------------
+ * Day buttons
+ * ---------------------------------------------------------------------- */
 .day {
-  padding: 0.45rem 0;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  background: #f1f2f5;
+  /* Equal square cells, so the grid stays even whatever the month length. */
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  /* 16:1 against the button surface. */
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   cursor: pointer;
+  transition:
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease;
 }
 
 .day:hover {
-  border-color: #b9bec9;
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent-hover);
 }
 
-.day.active {
-  background: #16181d;
+.day:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.day.active,
+.day.active:hover {
+  /* White on --accent is 8.5:1; the heavier, larger numeral keeps the Persian
+     digit legible against the filled background. */
+  background: var(--accent);
+  border-color: var(--accent);
   color: #fff;
-}
-
-code {
-  font-size: 0.85em;
-  background: #f1f2f5;
-  padding: 0.1em 0.35em;
-  border-radius: 4px;
+  font-weight: 700;
+  font-size: 1rem;
 }
 </style>

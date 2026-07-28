@@ -1,81 +1,264 @@
+/* -------------------------------------------------------------------------
+ * Design tokens
+ *
+ * `color-scheme: light` is deliberate rather than `light dark`: the page sets
+ * its own light surfaces, so advertising dark support made the browser render
+ * form controls with dark UA colours on top of them -- light grey text on a
+ * light grey field. One scheme, one set of tokens, predictable contrast.
+ *
+ * Every text/background pair below meets WCAG AA (4.5:1) for body text.
+ * ---------------------------------------------------------------------- */
 :root {
-  color-scheme: light dark;
-  font-family: system-ui, 'Segoe UI', Tahoma, sans-serif;
-  line-height: 1.7;
+  color-scheme: light;
+
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+  --surface-sunken: #f2f4f7;
+  --border: #e3e6ec;
+  --border-strong: #cbd1dc;
+
+  /* 17:1 on --surface */
+  --text: #14161a;
+  /* 7.7:1 on --surface */
+  --text-secondary: #4a5160;
+  /* 5.3:1 on --surface -- the lightest tone used for real text */
+  --text-muted: #666e7e;
+
+  /* 8.5:1 both ways against white */
+  --accent: #4338ca;
+  --accent-hover: #3730a3;
+  --accent-soft: #eef1ff;
+  --accent-border: #c7cdf7;
+
+  --success: #146c43;
+  --danger: #b02a37;
+
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+
+  --shadow-sm: 0 1px 2px rgb(16 18 24 / 5%);
+  --shadow: 0 1px 3px rgb(16 18 24 / 6%), 0 10px 28px -14px rgb(16 18 24 / 14%);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  --font-sans: Vazirmatn, 'Segoe UI', Tahoma, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Mono', 'JetBrains Mono', Consolas, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  padding: 2rem 1rem;
-  background: #f6f7f9;
-  color: #16181d;
+  padding: var(--space-6) var(--space-4);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* -------------------------------------------------------------------------
+ * Layout
+ * ---------------------------------------------------------------------- */
 .page {
   max-width: 46rem;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
 }
 
+/* -------------------------------------------------------------------------
+ * Typography
+ * ---------------------------------------------------------------------- */
+h1 {
+  margin: 0 0 var(--space-2);
+  font-size: 1.6rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+}
+
+h2 {
+  margin: 0 0 var(--space-4);
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.005em;
+  color: var(--text);
+}
+
+p {
+  margin: 0;
+}
+
+/* The intro block sits above the cards and is entirely English, so it is the one
+   region of the page that is left-aligned LTR (see the `.ltr` utility below). */
+.page > header p {
+  max-width: 60ch;
+  color: var(--text-secondary);
+  font-size: 0.925rem;
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.out {
+  margin-top: var(--space-4);
+  font-size: 1.375rem;
+  font-weight: 650;
+  line-height: 1.5;
+  color: var(--text);
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.ok {
+  color: var(--success);
+  font-weight: 550;
+}
+
+.bad {
+  color: var(--danger);
+  font-weight: 550;
+}
+
+/* -------------------------------------------------------------------------
+ * Direction
+ *
+ * The page is Persian and therefore RTL, but English runs -- the title, the
+ * intro, package names, API names -- must read left to right. `unicode-bidi:
+ * isolate` keeps each of those runs from disturbing the bidi ordering of the
+ * Persian sentence around it.
+ * ---------------------------------------------------------------------- */
+.ltr {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
+code {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+  font-family: var(--font-mono);
+  /* Slightly down-scaled: monospace faces run large next to the Persian text. */
+  font-size: 0.8125em;
+  line-height: 1.6;
+  padding: 0.05em 0.4em;
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+/* -------------------------------------------------------------------------
+ * Cards
+ * ---------------------------------------------------------------------- */
 .card {
-  background: #fff;
-  border: 1px solid #e3e5ea;
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 1.25rem;
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
 }
 
-.card h2 {
-  margin-top: 0;
-  font-size: 1.05rem;
+/* The "coming next" card is de-emphasised with a flatter surface rather than
+   with opacity -- opacity would drag its text below the contrast floor. */
+.todo {
+  background: transparent;
+  border-style: dashed;
+  box-shadow: none;
 }
 
+.todo h2 {
+  color: var(--text-secondary);
+}
+
+.todo ul {
+  margin: 0;
+  padding-inline-start: 1.15rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.todo li + li {
+  margin-top: var(--space-1);
+}
+
+/* -------------------------------------------------------------------------
+ * Form controls
+ * ---------------------------------------------------------------------- */
 label {
   display: block;
-  font-size: 0.85rem;
-  color: #5b6070;
-  margin-bottom: 0.35rem;
+  margin-bottom: var(--space-2);
+  font-size: 0.8125rem;
+  font-weight: 550;
+  line-height: 1.5;
+  color: var(--text-secondary);
 }
 
 input,
 select {
   width: 100%;
-  box-sizing: border-box;
-  padding: 0.55rem 0.7rem;
+  padding: 0.6rem 0.75rem;
   font: inherit;
-  border: 1px solid #ccd0d9;
-  border-radius: 8px;
-  background: #fff;
+  font-size: 0.9375rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+input:hover,
+select:hover {
+  border-color: var(--text-muted);
+}
+
+input:focus-visible,
+select:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
-.out {
-  margin: 0.75rem 0 0;
-  font-size: 1.15rem;
-  font-weight: 600;
-}
+@media (max-width: 30rem) {
+  body {
+    padding: var(--space-5) var(--space-3);
+  }
 
-.muted {
-  color: #5b6070;
-  font-size: 0.85rem;
-}
+  .card {
+    padding: var(--space-4);
+  }
 
-.ok {
-  color: #146c43;
-}
-
-.bad {
-  color: #b02a37;
-}
-
-.todo {
-  opacity: 0.55;
-}
-
-.todo li {
-  font-size: 0.9rem;
+  .row {
+    grid-template-columns: 1fr;
+  }
 }
