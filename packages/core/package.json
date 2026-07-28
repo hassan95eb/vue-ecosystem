@@ -56,11 +56,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OWNER/vue-ecosystem.git",
+    "url": "git+https://github.com/hassan95eb/vue-ecosystem.git",
     "directory": "packages/core"
   },
-  "homepage": "https://github.com/OWNER/vue-ecosystem/tree/main/packages/core#readme",
+  "homepage": "https://github.com/hassan95eb/vue-ecosystem/tree/main/packages/core#readme",
   "bugs": {
-    "url": "https://github.com/OWNER/vue-ecosystem/issues"
+    "url": "https://github.com/hassan95eb/vue-ecosystem/issues"
   }
 }

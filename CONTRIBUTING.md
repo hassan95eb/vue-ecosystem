@@ -25,7 +25,7 @@ corepack enable
 ## Setup
 
 ```bash
-git clone https://github.com/OWNER/vue-ecosystem.git
+git clone https://github.com/hassan95eb/vue-ecosystem.git
 cd vue-ecosystem
 pnpm install
 pnpm build     # packages depend on each other's dist output
