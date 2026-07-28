@@ -30,12 +30,17 @@ implementation. They are marked `private` so they cannot be published by acciden
 ## Quick start
 
 ```bash
-corepack enable          # see CONTRIBUTING.md if this fails on Node >= 25
+corepack enable     # see CONTRIBUTING.md if this fails on Node >= 25
 pnpm install
 pnpm build
 pnpm test
-pnpm --filter vue-ecosystem-playground dev   # live demo at localhost:5173
+pnpm playground     # live demo at http://localhost:5173
 ```
+
+> Use `pnpm playground`, not `pnpm --filter vue-ecosystem-playground dev`. The app
+> imports the packages through their published entry points (`dist/`), so they have to
+> be built first — `pnpm playground` goes through Turborepo, which does that for you.
+> `pnpm --filter … dev` bypasses Turborepo and fails to resolve the import.
 
 ## Repo layout
 

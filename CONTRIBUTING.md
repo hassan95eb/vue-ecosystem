@@ -35,7 +35,7 @@ pnpm test
 Run the live playground:
 
 ```bash
-pnpm --filter vue-ecosystem-playground dev   # http://localhost:5173
+pnpm playground     # http://localhost:5173
 ```
 
 ## Commands
@@ -49,11 +49,30 @@ pnpm --filter vue-ecosystem-playground dev   # http://localhost:5173
 | `pnpm typecheck`                                      | `vue-tsc --noEmit` per package                              |
 | `pnpm format`                                         | Prettier write                                              |
 | `pnpm changeset`                                      | Record a change for the next release                        |
+| `pnpm playground`                                     | Build the packages, then start the demo app                 |
 | `pnpm --filter @vue-ecosystem/persian-tools <script>` | Run a script in one package                                 |
 
 Turborepo caches by task and package. Run `pnpm build` twice — the second is a cache hit.
 To use the shared remote cache, run `pnpm exec turbo login` and `pnpm exec turbo link`.
 It is optional: without it everything still works from the local cache.
+
+## Troubleshooting
+
+**`vite: not found`, or any `<tool>: not found`** — dependencies are not installed.
+Run `pnpm install` from the repo root.
+
+**`Failed to resolve import "@vue-ecosystem/persian-tools"`** — the packages have not
+been built. They resolve each other through `dist/`, which is not in git. Run
+`pnpm build`, or use `pnpm playground`, which builds first. Running
+`pnpm --filter vue-ecosystem-playground dev` directly bypasses Turborepo and skips
+that build — use `pnpm playground` instead.
+
+**`pnpm install` fails in `prepare`** — it should not: git hook installation is
+best-effort and never fails the install. If it does, please open an issue with the
+output.
+
+**Something builds locally but fails in CI** — run `pnpm exec turbo run build --force`
+to bypass the cache, then compare.
 
 ## Making a change
 

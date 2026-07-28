@@ -13,6 +13,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "playground": "turbo run dev --filter=vue-ecosystem-playground",
     "test": "turbo run test",
     "test:coverage": "turbo run test:coverage",
     "lint": "turbo run lint",
@@ -22,7 +23,7 @@
     "changeset": "changeset",
     "version-packages": "changeset version && pnpm install --lockfile-only",
     "release": "turbo run build --filter=./packages/* && changeset publish",
-    "prepare": "lefthook install"
+    "prepare": "node scripts/prepare.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",

@@ -81,7 +81,8 @@ export default tseslint.config(
   },
 
   {
-    files: ['**/tests/**/*.ts', '**/*.config.ts', 'vitest.config.ts'],
+    // Tests, build configs and repo scripts are allowed to print.
+    files: ['**/tests/**/*.ts', '**/*.config.ts', 'vitest.config.ts', 'scripts/**/*.mjs'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       'no-console': 'off',

@@ -28,6 +28,10 @@
       "outputs": []
     },
     "dev": {
+      // Packages resolve each other through their published entry points (dist/),
+      // so a dev server cannot start until its dependencies have been built once.
+      // Without this, `turbo run dev --filter=<app>` fails to resolve the import.
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     }
