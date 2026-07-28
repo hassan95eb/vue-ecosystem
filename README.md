@@ -34,7 +34,7 @@ corepack enable     # see CONTRIBUTING.md if this fails on Node >= 25
 pnpm install
 pnpm build
 pnpm test
-pnpm playground     # live demo at http://localhost:5173
+pnpm playground     # live demo at http://127.0.0.1:5173 (opens automatically)
 ```
 
 > Use `pnpm playground`, not `pnpm --filter vue-ecosystem-playground dev`. The app

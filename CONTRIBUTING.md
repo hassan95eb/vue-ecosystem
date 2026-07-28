@@ -35,7 +35,7 @@ pnpm test
 Run the live playground:
 
 ```bash
-pnpm playground     # http://localhost:5173
+pnpm playground     # http://127.0.0.1:5173 -- opens in your browser automatically
 ```
 
 ## Commands
@@ -57,6 +57,22 @@ To use the shared remote cache, run `pnpm exec turbo login` and `pnpm exec turbo
 It is optional: without it everything still works from the local cache.
 
 ## Troubleshooting
+
+**`ERR_CONNECTION_REFUSED` on the playground URL** — the dev server is not listening
+on the address the browser asked for. Three things to check, in order:
+
+1. **Read the terminal.** `pnpm playground` builds `core` and `persian-tools` before
+   Vite starts; on a cold cache that takes a while. The server is only up once you see
+   `VITE v6.x ready in …`.
+2. **Use the URL the terminal prints**, which is `http://127.0.0.1:5173/`. Not
+   `localhost`: on Windows `localhost` often resolves to `::1` while the server is
+   bound to `127.0.0.1`, and the browser reports a refused connection even though the
+   server is running fine. That is why the config pins the host rather than leaving it
+   as `localhost`.
+3. **If Vite exits with "Port 5173 is already in use"**, something else has the port.
+   `strictPort` is on deliberately so this fails loudly instead of silently moving to
+   5174 while every doc still says 5173. Stop the other process, or change `port` in
+   `apps/playground/vite.config.ts`.
 
 **`vite: not found`, or any `<tool>: not found`** — dependencies are not installed.
 Run `pnpm install` from the repo root.
