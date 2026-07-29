@@ -62,12 +62,12 @@ describe('PersianDateRangePicker', () => {
     const [previousButton, nextButton] = wrapper.findAll('.vet-drp__nav')
 
     await nextButton?.trigger('click')
-    expect(wrapper.find('.vet-drp__select').element.value).toBe('2') // Ordibehesht
+    expect(wrapper.find<HTMLSelectElement>('.vet-drp__select').element.value).toBe('2') // Ordibehesht
 
     await previousButton?.trigger('click')
     await previousButton?.trigger('click')
-    expect(wrapper.find('.vet-drp__select').element.value).toBe('12') // rolled back into Esfand
-    expect(wrapper.findAll('.vet-drp__select')[1]?.element.value).toBe('1402')
+    expect(wrapper.find<HTMLSelectElement>('.vet-drp__select').element.value).toBe('12') // rolled back into Esfand
+    expect(wrapper.findAll<HTMLSelectElement>('.vet-drp__select')[1]?.element.value).toBe('1402')
   })
 
   it('the default header month/year selects jump directly to any month or year', async () => {
