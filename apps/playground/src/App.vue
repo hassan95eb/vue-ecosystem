@@ -3,7 +3,11 @@ import { computed, ref } from 'vue'
 import {
   useJalali,
   usePersianNumber,
+  useIban,
+  useCardNumber,
   vRtlInput,
+  vPersianDigits,
+  vHalfSpace,
   isValidNationalId,
   isValidIranianMobile,
   normalizeIranianMobile,
@@ -12,7 +16,12 @@ import {
   JALALI_MONTH_NAMES,
   JALALI_WEEKDAY_NAMES,
   parsePersianNumber,
+  PersianDateRangePicker,
+  HolidayBadge,
+  RelativeDate,
+  isJalaliHoliday,
   type JalaliDateParts,
+  type JalaliRange,
 } from '@vue-ecosystem/persian-tools'
 
 // --- A small Jalali date picker, driven entirely by the package ---------------
@@ -50,6 +59,34 @@ const nationalIdState = computed(() =>
 const mobileState = computed(() =>
   mobile.value === '' ? null : isValidIranianMobile(mobile.value),
 )
+
+// --- IBAN / card number, via the reactive composables ------------------------
+const iban = ref('')
+const { isValid: ibanValid, normalized: ibanNormalized } = useIban(iban)
+
+const cardNumber = ref('')
+const { isValid: cardValid, normalized: cardNormalized } = useCardNumber(cardNumber)
+
+// --- Date range picker --------------------------------------------------------
+const range = ref<JalaliRange>({ start: null, end: null })
+
+// --- Holiday badge / relative date --------------------------------------------
+// Reuses `selected` from the calendar above -- moving the date there (or via
+// the quick-jump buttons below) drives both of these live, instead of a
+// static, unchanging example.
+const holidayQuickJumps = [
+  { label: 'نوروز', jm: 1, jd: 1 },
+  { label: 'روز طبیعت', jm: 1, jd: 13 },
+  { label: '۲۲ بهمن', jm: 11, jd: 22 },
+] as const
+
+function goToHoliday(jm: number, jd: number): void {
+  selected.value = { jy: selected.value.jy, jm, jd }
+}
+
+// --- New directives ------------------------------------------------------------
+const digitsText = ref('')
+const halfSpaceText = ref('')
 </script>
 
 <template>
@@ -144,6 +181,65 @@ const mobileState = computed(() =>
       </p>
     </section>
 
+    <section class="card">
+      <h2>اعتبارسنجی مالی — <code>useIban</code> / <code>useCardNumber</code></h2>
+      <label for="iban">شماره شبا (IBAN)</label>
+      <input id="iban" v-model="iban" v-rtl-input.numeric.english placeholder="IR..." />
+      <p v-if="iban !== ''" class="muted" :class="ibanValid ? 'ok' : 'bad'">
+        {{ ibanValid ? `معتبر — ${ibanNormalized}` : 'شماره شبا نامعتبر است' }}
+      </p>
+
+      <label for="card" class="label--spaced">شماره کارت بانکی</label>
+      <input id="card" v-model="cardNumber" v-rtl-input.numeric.english maxlength="19" />
+      <p v-if="cardNumber !== ''" class="muted" :class="cardValid ? 'ok' : 'bad'">
+        {{ cardValid ? `معتبر — ${cardNormalized}` : 'شماره کارت نامعتبر است' }}
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>دایرکتیوهای جدید — <code>v-persian-digits</code> / <code>v-half-space</code></h2>
+      <label for="digits">ارقام فارسی خودکار (یک عدد انگلیسی تایپ کنید)</label>
+      <input id="digits" v-model="digitsText" v-persian-digits placeholder="1403" />
+
+      <label for="halfspace" class="label--spaced"
+        >نیم‌فاصله خودکار (مثلاً «می روم» تایپ کنید)</label
+      >
+      <input id="halfspace" v-model="halfSpaceText" v-half-space placeholder="می روم" />
+    </section>
+
+    <section class="card">
+      <h2>بازه تاریخ — <code>PersianDateRangePicker</code></h2>
+      <PersianDateRangePicker v-model="range" />
+    </section>
+
+    <section class="card">
+      <h2>روز تعطیل و تاریخ نسبی — <code>HolidayBadge</code> / <code>RelativeDate</code></h2>
+      <p class="muted">
+        همون تاریخِ انتخاب‌شده در بخش «تاریخ جلالی» بالا رو نشان می‌دهد — تاریخ را از آنجا عوض کنید
+        تا این‌جا هم زنده تغییر کند.
+      </p>
+
+      <p class="row-inline">
+        <RelativeDate :date="selected" />
+        <HolidayBadge :date="selected" />
+        <span v-if="!isJalaliHoliday(selected)" class="muted">(تعطیل رسمی ثابت نیست)</span>
+      </p>
+
+      <p class="muted label--spaced">پرش سریع به یک تعطیلی برای دیدن نشان:</p>
+      <div class="row-inline">
+        <button
+          v-for="holiday in holidayQuickJumps"
+          :key="holiday.label"
+          type="button"
+          class="chip"
+          @click="goToHoliday(holiday.jm, holiday.jd)"
+        >
+          {{ holiday.label }}
+        </button>
+        <button type="button" class="chip" @click="selected = today.parts.value">امروز</button>
+      </div>
+    </section>
+
     <section class="card todo ltr" dir="ltr">
       <h2>Coming next</h2>
       <ul>
@@ -159,6 +255,33 @@ const mobileState = computed(() =>
 <style scoped>
 .label--spaced {
   margin-top: var(--space-5);
+}
+
+.row-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.row-inline + .row-inline {
+  margin-top: var(--space-3);
+}
+
+.chip {
+  padding: 0.3rem 0.75rem;
+  font: inherit;
+  font-size: 0.8125rem;
+  color: var(--accent-hover);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.chip:hover {
+  background: var(--accent-border);
 }
 
 /* -------------------------------------------------------------------------

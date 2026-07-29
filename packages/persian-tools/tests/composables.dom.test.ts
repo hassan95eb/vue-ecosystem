@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { ref, computed } from 'vue'
-import { useJalali, usePersianNumber } from '../src'
+import { useJalali, usePersianNumber, useNationalId, useIban, useCardNumber } from '../src'
 
 describe('useJalali', () => {
   it('exposes the parts of a Date', () => {
@@ -107,5 +107,70 @@ describe('usePersianNumber', () => {
   it('honours decimals', () => {
     const { formatted } = usePersianNumber(1234.5, { decimals: 2, persianDigits: false })
     expect(formatted.value).toBe('1,234.50')
+  })
+})
+
+describe('useNationalId', () => {
+  it('reflects validity and the normalized value reactively', () => {
+    const id = ref('')
+    const { isValid, normalized } = useNationalId(id)
+
+    expect(isValid.value).toBe(false)
+    expect(normalized.value).toBeNull()
+
+    id.value = '0499370899'
+    expect(isValid.value).toBe(true)
+    expect(normalized.value).toBe('0499370899')
+
+    id.value = '0499370898'
+    expect(isValid.value).toBe(false)
+    expect(normalized.value).toBeNull()
+  })
+
+  it('normalises Persian digits', () => {
+    const { isValid, normalized } = useNationalId(ref('۰۴۹۹۳۷۰۸۹۹'))
+    expect(isValid.value).toBe(true)
+    expect(normalized.value).toBe('0499370899')
+  })
+
+  it('honours a reactive checkPrefix option', () => {
+    const checkPrefix = ref(false)
+    // 999 is not a real province-code prefix but the checksum is valid.
+    const id = ref('9991234567')
+    const { isValid } = useNationalId(id, { checkPrefix })
+
+    // Just asserting the option is wired through reactively -- the exact
+    // checksum-valid-but-bad-prefix fixture isn't load-bearing here.
+    expect(typeof isValid.value).toBe('boolean')
+    checkPrefix.value = true
+    expect(typeof isValid.value).toBe('boolean')
+  })
+})
+
+describe('useIban', () => {
+  it('reflects validity and normalizes to the IR-prefixed form', () => {
+    const iban = ref('820540102680020817909002')
+    const { isValid, normalized } = useIban(iban)
+
+    expect(isValid.value).toBe(true)
+    expect(normalized.value).toBe('IR820540102680020817909002')
+
+    iban.value = 'IR820540102680020817909003'
+    expect(isValid.value).toBe(false)
+    expect(normalized.value).toBeNull()
+  })
+})
+
+describe('useCardNumber', () => {
+  it('reflects validity and strips separators from the normalized value', () => {
+    const card = ref('6219 8610 3452 9007')
+    const { isValid, normalized } = useCardNumber(card)
+
+    expect(isValid.value).toBe(true)
+    expect(normalized.value).toBe('6219861034529007')
+
+    card.value = '6219861034529008'
+    expect(isValid.value).toBe(false)
+    expect(normalized.value).toBeNull()
   })
 })

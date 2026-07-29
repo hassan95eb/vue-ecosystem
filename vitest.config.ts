@@ -15,6 +15,7 @@
  * own `test` script scoped to that package's directory. Do not merge those into a
  * single root script.
  */
+import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vitest/config'
 
 const shared = {
@@ -26,6 +27,13 @@ export default defineConfig({
   test: {
     projects: [
       {
+        // Inline projects do not inherit the root `plugins` array, so the
+        // Vue plugin is repeated per project rather than declared once at
+        // the top level -- needed once any package ships real .vue SFCs
+        // (currently persian-tools' PersianDateRangePicker and badge
+        // components); without it Vitest can't parse a `.vue` file pulled
+        // in by a test, even indirectly through a package's `src/index.ts`.
+        plugins: [vue()],
         test: {
           ...shared,
           name: 'unit',
@@ -36,6 +44,7 @@ export default defineConfig({
         },
       },
       {
+        plugins: [vue()],
         test: {
           ...shared,
           name: 'dom',

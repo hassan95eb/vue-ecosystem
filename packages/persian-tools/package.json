@@ -33,28 +33,32 @@
       "import": "./dist/validation.js",
       "require": "./dist/validation.cjs"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./style.css": "./dist/persian-tools.css"
   },
   "publishConfig": {
     "access": "public",
     "provenance": true
   },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "vite build",
+    "dev": "vite build --watch",
     "test": "vitest run --root ../.. packages/persian-tools/tests",
     "test:coverage": "vitest run --root ../.. --coverage packages/persian-tools/tests",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "lint": "eslint src tests"
   },
   "dependencies": {
+    "@persian-tools/persian-tools": "^4.0.4",
     "@vue-ecosystem/core": "workspace:*"
   },
   "peerDependencies": {
     "vue": "^3.4.0"
   },
   "devDependencies": {
-    "tsup": "^8.5.0",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "vite": "^6.3.5",
+    "vite-plugin-dts": "^5.0.3",
     "vue": "^3.5.17"
   },
   "keywords": [

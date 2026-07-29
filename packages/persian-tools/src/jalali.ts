@@ -25,3 +25,13 @@ export {
   JALALI_WEEKDAY_NAMES,
 } from './internal/jalali-format'
 export type { FormatJalaliOptions } from './internal/jalali-format'
+
+export {
+  getJalaliHoliday,
+  isJalaliHoliday,
+  FIXED_JALALI_HOLIDAYS,
+} from './internal/jalali-holidays'
+export type { JalaliHoliday } from './internal/jalali-holidays'
+
+export { formatJalaliRelative, jalaliRelativeDayOffset } from './internal/jalali-relative'
+export type { FormatJalaliRelativeOptions } from './internal/jalali-relative'

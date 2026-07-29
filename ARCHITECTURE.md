@@ -28,14 +28,28 @@ Two build tools, each for a specific category of package. This is a deliberate s
 not a per-package judgement call — the point of writing it down is that no package
 gets to reinvent it.
 
-| Package type                                                                                                                                                                              | Build tool                                                       | Why                                                                                                                                                         |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Logic / composables only, **no `.vue` files** — `core`, `state-machine`, `persian-tools` (phase 1: composables + directive only), `query-builder` (engine), `virtual-scroll` (composable) | **tsup** (esbuild)                                               | Faster, far lighter config, and emits ESM + CJS + `.d.ts` for multiple entry points without a bespoke rollup setup per entry                                |
-| Packages with real `.vue` SFCs — `smart-table` (styled shell), `dashboard-layout`, `tour`, `form-builder`, and any package that later gains a full component                              | **Vite library mode** + `@vitejs/plugin-vue` + `vite-plugin-dts` | esbuild has no native support for `<template>` / `<script setup>` / scoped CSS; the esbuild Vue-SFC plugins are not at the maturity of `@vitejs/plugin-vue` |
+| Package type                                                                                                                                                                                                                | Build tool                                                       | Why                                                                                                                                                         |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Logic / composables only, **no `.vue` files** — `core`, `state-machine`, `query-builder` (engine), `virtual-scroll` (composable)                                                                                            | **tsup** (esbuild)                                               | Faster, far lighter config, and emits ESM + CJS + `.d.ts` for multiple entry points without a bespoke rollup setup per entry                                |
+| Packages with real `.vue` SFCs — `persian-tools` (`PersianDateRangePicker` + badge components), `smart-table` (styled shell), `dashboard-layout`, `tour`, `form-builder`, and any package that later gains a full component | **Vite library mode** + `@vitejs/plugin-vue` + `vite-plugin-dts` | esbuild has no native support for `<template>` / `<script setup>` / scoped CSS; the esbuild Vue-SFC plugins are not at the maturity of `@vitejs/plugin-vue` |
 
-**In phase 1 there is no actual conflict**: `core` and `persian-tools` both fall in the
-first row, so both use tsup. The table matters from the phase where `smart-table` and
-`dashboard-layout` arrive — which is exactly why it is recorded now rather than then.
+**`persian-tools` moved rows during its MVP-completion pass.** It shipped phase 1 as
+composables + a directive only (no `.vue` files), so it started in the tsup row
+alongside `core`. Adding `PersianDateRangePicker` and the small badge components
+(real `.vue` SFCs) moved it into the Vite-library-mode row — this is exactly the
+"any package that later gains a full component" case the table already accounted for.
+The multi-entry `exports` map and the ESM + CJS + `.d.ts` output shape are unchanged;
+only the build tool producing them is. One shape difference worth knowing:
+`vite-plugin-dts` mirrors `src/` into per-file `.d.ts` output (like `tsc --declaration`)
+rather than bundling each entry into one rolled-up `.d.ts` the way tsup did — the four
+files the exports map points at are unaffected, but `dist/` now also contains
+per-file `.d.ts` output for `composables/`, `directives/` and `internal/`.
+
+**This means there is no longer a phase where every package shares one build tool.**
+The previous note ("in phase 1 there is no actual conflict") described a state that
+no longer holds: `persian-tools` and `core` used to both be tsup, and now are not.
+That was never a rule in itself — the per-category split in the table above is, and
+it already covered this move before it happened.
 
 Type-checking is always a **separate step** (`vue-tsc --noEmit`), never delegated to
 the bundler. Neither tsup nor esbuild performs a full type-check.
