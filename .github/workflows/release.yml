@@ -17,6 +17,10 @@ env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ vars.TURBO_TEAM }}
   TURBO_TELEMETRY_DISABLED: 1
+  # The `secrets` context cannot be referenced inside a step-level `if:` condition
+  # (GitHub Actions rejects it with "Unrecognized named-value: 'secrets'"). Routing
+  # it through workflow-level `env` first makes it readable as `env.NPM_TOKEN` below.
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
   release:
@@ -50,7 +54,7 @@ jobs:
       # token is added to repository secrets this job only ever opens the version PR,
       # which is the desired behaviour for now.
       - name: Create version PR or publish
-        if: ${{ secrets.NPM_TOKEN != '' }}
+        if: ${{ env.NPM_TOKEN != '' }}
         uses: changesets/action@v1
         with:
           version: pnpm version-packages
@@ -63,7 +67,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Version only (no npm token configured)
-        if: ${{ secrets.NPM_TOKEN == '' }}
+        if: ${{ env.NPM_TOKEN == '' }}
         uses: changesets/action@v1
         with:
           version: pnpm version-packages
