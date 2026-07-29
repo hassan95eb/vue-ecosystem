@@ -1,6 +1,6 @@
 {
   "name": "@vue-ecosystem/persian-tools",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Jalali dates, Persian number formatting, Iranian validators and an RTL input directive for Vue 3.",
   "license": "MIT",
   "type": "module",
