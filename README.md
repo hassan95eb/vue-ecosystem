@@ -11,21 +11,22 @@ peer dependency, and is MIT licensed.
 
 ## Packages
 
-| Package                                                        | Status     | What it does                                                                        |
-| -------------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------- |
-| [`@vue-ecosystem/core`](packages/core)                         | ✅ ready   | Base error type, namespaced debug logger, shared composable types                   |
-| [`@vue-ecosystem/persian-tools`](packages/persian-tools)       | ✅ ready   | Jalali dates, Persian number/currency formatting, Iranian validators, `v-rtl-input` |
-| [`@vue-ecosystem/realtime`](packages/realtime)                 | 🚧 planned | WebSocket/SSE lifecycle, reconnection, optimistic state                             |
-| [`@vue-ecosystem/smart-table`](packages/smart-table)           | 🚧 planned | Data table: sorting, filtering, pagination, virtualised rows                        |
-| [`@vue-ecosystem/state-machine`](packages/state-machine)       | 🚧 planned | Typed, declarative finite state machines                                            |
-| [`@vue-ecosystem/query-builder`](packages/query-builder)       | 🚧 planned | Type-safe filter/query builder with a serialisable AST                              |
-| [`@vue-ecosystem/virtual-scroll`](packages/virtual-scroll)     | 🚧 planned | Headless virtual scrolling                                                          |
-| [`@vue-ecosystem/form-builder`](packages/form-builder)         | 🚧 planned | Schema-driven forms and validation                                                  |
-| [`@vue-ecosystem/dashboard-layout`](packages/dashboard-layout) | 🚧 planned | Draggable, resizable dashboard grid                                                 |
-| [`@vue-ecosystem/tour`](packages/tour)                         | 🚧 planned | Guided product tours                                                                |
+| Package                                                        | Status     | What it does                                                                             |
+| -------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------- |
+| [`@vue-ecosystem/core`](packages/core)                         | ✅ ready   | Base error type, namespaced debug logger, shared composable types                        |
+| [`@vue-ecosystem/persian-tools`](packages/persian-tools)       | ✅ ready   | Jalali dates, Persian number/currency formatting, Iranian validators, `v-rtl-input`      |
+| [`@vue-ecosystem/realtime`](packages/realtime)                 | ✅ ready   | WebSocket + SSE lifecycle with reconnection, presence/pub-sub channels, optimistic state |
+| [`@vue-ecosystem/smart-table`](packages/smart-table)           | 🚧 planned | Data table: sorting, filtering, pagination, virtualised rows                             |
+| [`@vue-ecosystem/state-machine`](packages/state-machine)       | 🚧 planned | Typed, declarative finite state machines                                                 |
+| [`@vue-ecosystem/query-builder`](packages/query-builder)       | 🚧 planned | Type-safe filter/query builder with a serialisable AST                                   |
+| [`@vue-ecosystem/virtual-scroll`](packages/virtual-scroll)     | 🚧 planned | Headless virtual scrolling                                                               |
+| [`@vue-ecosystem/form-builder`](packages/form-builder)         | 🚧 planned | Schema-driven forms and validation                                                       |
+| [`@vue-ecosystem/dashboard-layout`](packages/dashboard-layout) | 🚧 planned | Draggable, resizable dashboard grid                                                      |
+| [`@vue-ecosystem/tour`](packages/tour)                         | 🚧 planned | Guided product tours                                                                     |
 
-🚧 packages are skeletons: directory, README and a place in the dependency graph, no
-implementation. They are marked `private` so they cannot be published by accident.
+🚧 planned packages are skeletons: directory, README and a place in the dependency
+graph, no implementation. They are marked `private` so they cannot be published by
+accident.
 
 ## Quick start
 
