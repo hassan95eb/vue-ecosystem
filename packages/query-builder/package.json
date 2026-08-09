@@ -4,7 +4,6 @@
   "description": "Composable, type-safe filter and query builder with a serialisable AST.",
   "license": "MIT",
   "type": "module",
-  "private": true,
   "sideEffects": false,
   "files": [
     "dist",
@@ -26,10 +25,12 @@
     "provenance": true
   },
   "scripts": {
-    "build": "echo \"[@vue-ecosystem/query-builder] skeleton - nothing to build yet\"",
-    "test": "echo \"[@vue-ecosystem/query-builder] skeleton - no tests yet\"",
-    "typecheck": "echo \"[@vue-ecosystem/query-builder] skeleton - nothing to type-check yet\"",
-    "lint": "echo \"[@vue-ecosystem/query-builder] skeleton - nothing to lint yet\""
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run --root ../.. packages/query-builder/tests",
+    "test:coverage": "vitest run --root ../.. --coverage packages/query-builder/tests",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "lint": "eslint src tests"
   },
   "dependencies": {
     "@vue-ecosystem/core": "workspace:*"
@@ -37,15 +38,26 @@
   "peerDependencies": {
     "vue": "^3.4.0"
   },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "vue": "^3.5.17"
+  },
   "keywords": [
     "vue",
     "vue3",
     "composition-api",
-    "typescript"
+    "typescript",
+    "query-builder",
+    "filter",
+    "ast"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hassan95eb/vue-ecosystem.git",
     "directory": "packages/query-builder"
+  },
+  "homepage": "https://github.com/hassan95eb/vue-ecosystem/tree/main/packages/query-builder#readme",
+  "bugs": {
+    "url": "https://github.com/hassan95eb/vue-ecosystem/issues"
   }
 }

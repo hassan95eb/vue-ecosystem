@@ -16,10 +16,10 @@ peer dependency, and is MIT licensed.
 | [`@vue-ecosystem/core`](packages/core)                         | ✅ ready   | Base error type, namespaced debug logger, shared composable types                        |
 | [`@vue-ecosystem/persian-tools`](packages/persian-tools)       | ✅ ready   | Jalali dates, Persian number/currency formatting, Iranian validators, `v-rtl-input`      |
 | [`@vue-ecosystem/realtime`](packages/realtime)                 | ✅ ready   | WebSocket + SSE lifecycle with reconnection, presence/pub-sub channels, optimistic state |
+| [`@vue-ecosystem/virtual-scroll`](packages/virtual-scroll)     | ✅ ready   | Headless virtual scrolling for long lists of fixed-height rows                           |
+| [`@vue-ecosystem/query-builder`](packages/query-builder)       | ✅ ready   | Type-safe filter/query builder with a serialisable AST and a pure `evaluate()`           |
 | [`@vue-ecosystem/smart-table`](packages/smart-table)           | 🚧 planned | Data table: sorting, filtering, pagination, virtualised rows                             |
 | [`@vue-ecosystem/state-machine`](packages/state-machine)       | 🚧 planned | Typed, declarative finite state machines                                                 |
-| [`@vue-ecosystem/query-builder`](packages/query-builder)       | 🚧 planned | Type-safe filter/query builder with a serialisable AST                                   |
-| [`@vue-ecosystem/virtual-scroll`](packages/virtual-scroll)     | 🚧 planned | Headless virtual scrolling                                                               |
 | [`@vue-ecosystem/form-builder`](packages/form-builder)         | 🚧 planned | Schema-driven forms and validation                                                       |
 | [`@vue-ecosystem/dashboard-layout`](packages/dashboard-layout) | 🚧 planned | Draggable, resizable dashboard grid                                                      |
 | [`@vue-ecosystem/tour`](packages/tour)                         | 🚧 planned | Guided product tours                                                                     |
