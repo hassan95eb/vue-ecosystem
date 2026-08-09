@@ -1,6 +1,6 @@
 {
   "name": "@vue-ecosystem/smart-table",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Data table for Vue 3: sorting, filtering, pagination, virtualised rows.",
   "license": "MIT",
   "type": "module",
