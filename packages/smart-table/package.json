@@ -4,7 +4,6 @@
   "description": "Data table for Vue 3: sorting, filtering, pagination, virtualised rows.",
   "license": "MIT",
   "type": "module",
-  "private": true,
   "sideEffects": false,
   "files": [
     "dist",
@@ -26,10 +25,12 @@
     "provenance": true
   },
   "scripts": {
-    "build": "echo \"[@vue-ecosystem/smart-table] skeleton - nothing to build yet\"",
-    "test": "echo \"[@vue-ecosystem/smart-table] skeleton - no tests yet\"",
-    "typecheck": "echo \"[@vue-ecosystem/smart-table] skeleton - nothing to type-check yet\"",
-    "lint": "echo \"[@vue-ecosystem/smart-table] skeleton - nothing to lint yet\""
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run --root ../.. packages/smart-table/tests",
+    "test:coverage": "vitest run --root ../.. --coverage packages/smart-table/tests",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "lint": "eslint src tests"
   },
   "dependencies": {
     "@vue-ecosystem/core": "workspace:*",
@@ -39,15 +40,31 @@
   "peerDependencies": {
     "vue": "^3.4.0"
   },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "vue": "^3.5.17"
+  },
   "keywords": [
     "vue",
     "vue3",
     "composition-api",
-    "typescript"
+    "typescript",
+    "table",
+    "data-table",
+    "datagrid",
+    "sorting",
+    "filtering",
+    "pagination",
+    "virtual-scroll",
+    "headless"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hassan95eb/vue-ecosystem.git",
     "directory": "packages/smart-table"
+  },
+  "homepage": "https://github.com/hassan95eb/vue-ecosystem/tree/main/packages/smart-table#readme",
+  "bugs": {
+    "url": "https://github.com/hassan95eb/vue-ecosystem/issues"
   }
 }
