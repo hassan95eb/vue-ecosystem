@@ -1,6 +1,6 @@
 {
   "name": "@vue-ecosystem/query-builder",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Composable, type-safe filter and query builder with a serialisable AST.",
   "license": "MIT",
   "type": "module",
